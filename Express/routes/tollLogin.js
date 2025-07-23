@@ -26,7 +26,7 @@ const createToken = (id) => {
 }
 
 // ! Login Route
-router.post('/', Tollupload.any(), async (req, res) => {
+router.post('/login', Tollupload.any(), async (req, res) => {
   const { toll, password } = req.body;
   try {
     const user = await TollPlaza.findOne({ username: toll });
