@@ -18,21 +18,24 @@ import NoAccess from './Components/NoAccess';
 import './all_css/Home.css';
 import './all_css/Loader.css';
 import './stylesheet.css';
-import './street_cred-webfont.woff';
-import './street_cred-webfont.woff2';
+
 
 const NotFound = (props) => (
   <h1>404 Error.
     The page you are looking for does not exist
   </h1>)
 
+// Helper to check for tollLogin cookie
+function hasTollLoginCookie() {
+  if (typeof document === 'undefined') return false;
+  return document.cookie.split(';').some((item) => item.trim().startsWith('tollLogin='));
+}
+
+
 function App() {
   const [selectedToll, setSelectedToll] = useState('');
   const [signInButton, setSignInButton] = useState(true);
-  const [cookie, setCookie] = useState(document.cookie);
-
-  // document.cookie = "tollLogin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
+  const [isAuthenticated, setIsAuthenticated] = useState(hasTollLoginCookie());
 
   useEffect(() => {
     const storedToll = localStorage.getItem('selectedToll');
@@ -45,16 +48,24 @@ function App() {
     localStorage.setItem('selectedToll', selectedToll);
   }, [selectedToll]);
 
+  // Listen for cookie changes (e.g., login/logout)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAuthenticated(hasTollLoginCookie());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <Router>
-        <Navbar signInButton={signInButton} setCookie={setCookie} />
+        <Navbar signInButton={signInButton} setCookie={setIsAuthenticated} />
         <Routes>
           <Route path='/' element={<Home setSignInButton={setSignInButton}  />} />
           <Route path='/loader' element={<Loader />} />
           <Route path='/aboutus' element={<AboutUs setSignInButton={setSignInButton} />} />
-          <Route path='/toll' element={<TollLogin setCookie={setCookie} selectedToll={selectedToll} setSelectedToll={setSelectedToll} setSignInButton={setSignInButton}  />} />
-          {!cookie &&
+          <Route path='/toll' element={<TollLogin setCookie={setIsAuthenticated} selectedToll={selectedToll} setSelectedToll={setSelectedToll} setSignInButton={setSignInButton}  />} />
+          {!isAuthenticated &&
             (<>
               <Route path='/toll/start' element={<NoAccess />} />
               <Route path='/toll/upload' element={<NoAccess />} />
@@ -63,7 +74,7 @@ function App() {
             )
           }
 
-          {cookie &&
+          {isAuthenticated &&
             (<>
               <Route path='/toll/start' element={<TollStart selectedToll={selectedToll} setSignInButton={setSignInButton} />} />
               <Route path='/toll/upload' element={<TollUpload selectedToll={selectedToll} setSignInButton={setSignInButton} />} />
@@ -71,7 +82,6 @@ function App() {
             </>
             )
           }
-
 
           <Route path='/stats' element={<Statistics setSignInButton={setSignInButton}/>} />
           <Route path='/guest' element={<Guest setSignInButton={setSignInButton} />} />

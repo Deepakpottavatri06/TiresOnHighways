@@ -40,7 +40,7 @@ router.post('/login', Tollupload.any(), async (req, res) => {
             const token = createToken(user._id);
             // console.log(token);
             res.cookie('tollLogin', token, {
-              httpOnly: false,   // For access via JS (optional, for debugging)
+              httpOnly: true,   // For access via JS (optional, for debugging)
               secure: true,      // Required for cross-origin cookies in production
               sameSite: 'None',  // Required for cross-origin cookies
               path: '/',            // Makes the cookie available across your entire site
