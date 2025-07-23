@@ -6,7 +6,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://tires-on-highways-express.vercel.app'; // Set the base URL for axios requests
+axios.defaults.baseURL = 'https://tires-on-highways-express.vercel.app'; 
+// axios.defaults.baseURL = 'http://localhost:4000'; // For local development
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
