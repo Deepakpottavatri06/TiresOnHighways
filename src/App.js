@@ -27,11 +27,6 @@ const NotFound = (props) => (
     The page you are looking for does not exist
   </h1>)
 
-// Helper to check for tollLogin cookie
-function hasTollLoginCookie() {
-  if (typeof document === 'undefined') return false;
-  return document.cookie.split(';').some((item) => item.trim().startsWith('tollLogin='));
-}
 
 
 function App() {
@@ -90,6 +85,9 @@ function App() {
     verifyUser();
   }, []); // The empty array [] means this effect runs ONLY ONCE when the app first loads.
 
+  if (isLoading) {
+    return <Loader />; // Or any other loading spinner component
+  }
   return (
     <>
       <Router>
