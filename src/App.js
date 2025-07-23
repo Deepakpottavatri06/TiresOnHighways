@@ -19,6 +19,7 @@ import './all_css/Home.css';
 import './all_css/Loader.css';
 import './stylesheet.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const NotFound = (props) => (
@@ -36,6 +37,7 @@ function hasTollLoginCookie() {
 function App() {
   const [selectedToll, setSelectedToll] = useState('');
   const [signInButton, setSignInButton] = useState(true);
+  const navigate = useNavigate();
   // const [isAuthenticated, setIsAuthenticated] = useState(hasTollLoginCookie());
 
   // useEffect(() => {
@@ -75,6 +77,9 @@ function App() {
         // This request will succeed (200 OK) if the cookie is valid.
         await axios.get('/api/verify', { withCredentials: true });
         setIsAuthenticated(true);
+        // If we reach here, the user is authenticated
+        navigate('/toll/start');
+
       } catch (error) {
         // This will catch the 401 Unauthorized error if the cookie is missing or invalid.
         console.log("Verification failed, user is not logged in.");
