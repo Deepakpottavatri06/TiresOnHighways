@@ -37,7 +37,6 @@ function hasTollLoginCookie() {
 function App() {
   const [selectedToll, setSelectedToll] = useState('');
   const [signInButton, setSignInButton] = useState(true);
-  const navigate = useNavigate();
   // const [isAuthenticated, setIsAuthenticated] = useState(hasTollLoginCookie());
 
   // useEffect(() => {
