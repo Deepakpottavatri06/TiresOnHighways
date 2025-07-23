@@ -44,7 +44,6 @@ router.post('/login', Tollupload.any(), async (req, res) => {
               secure: true,      // Required for cross-origin cookies in production
               sameSite: 'None',  // Required for cross-origin cookies
               path: '/',            // Makes the cookie available across your entire site
-              partitioned: 'true',
               maxAge: 60 * 60 * 1000,
             });
             // res.cookie('tollLogin', token, { domain: `${req.hostname}`, maxAge: 60 * 60 * 1000 });
