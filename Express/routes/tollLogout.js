@@ -15,16 +15,14 @@ router.use(cookieParser());
 
 // ! Logout Route
 router.get('/logout', auth, (req, res) => {
-    console.log("LogOut Route");
-    const token = req.cookies.tollLogin;
-    if (token) {
-        console.log("Token Found");
-        res.clearCookie('tollLogin');
-        res.send("LogOut Success");
-    }
-    else {
-        console.log("Token Not Found");
-        res.send("LoggingOut");
-    }
+    res.cookie('tollLogin', '', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    path: '/',
+    maxAge: 1, // Instantly expire the cookie
+    partitioned: true,
+  });
+  res.status(200).send("Logged out successfully");
 });
 module.exports = router;
