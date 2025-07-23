@@ -31,7 +31,7 @@ router.post('/guestUp', Guestupload.any(), async (req, res) => {
       });
       try {
         const guestFlaskResponse = [];
-        const guestResponse_flask = await axios.post(process.env.Flask_URL + "/classify", guestFlaskRequestData);
+        const guestResponse_flask = await axios.post(process.env.FLASK_URL + "/classify", guestFlaskRequestData);
         for (let i = 0; i < files.length; i++) {
           guestFlaskResponse.push(guestResponse_flask.data[i]);
         }
