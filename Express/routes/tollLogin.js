@@ -22,46 +22,52 @@ const Tollupload = multer({ storage: TollUp, limits: { fieldSize: 25 * 1024 * 10
 
 // & JWT
 const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 1000 });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 1000 });
 }
 
 // ! Login Route
 router.post('/login', Tollupload.any(), async (req, res) => {
-    const { toll, password } = req.body;
-    try {
-      const user = await TollPlaza.findOne({ username: toll });
-      console.log(user);
-      if (user) {
-        try {
-          const passMatch = await bcrypt.compare(password, user.password);
-          if (passMatch) {
-            console.log("Password Matched");
-            try {
-              const token = createToken(user._id);
-              // console.log(token);
-              res.cookie('tollLogin', token, { domain: `${req.hostname}`, maxAge: 60 * 60 * 1000 });
-              // sameSite: 'None'  -> for CORS purposes and controlling the cookie to be sent only to the same origin
-              // secure : true -> is not recommended for development purposes as we can't access a cookie using document.cookie in the client side 
-              // path: '/' -> to make the cookie available to all the routes
-              // domain: `http://${req.hostname}:3000`} -> to make the cookie available to all the subdomains
-              console.log("Success");
-              res.send("Success");
-            } catch (err) {
-              console.log(err);
-            }
-          }
-          else {
-            console.log("Not Allowed");
-            res.send("Not Allowed");
+  const { toll, password } = req.body;
+  try {
+    const user = await TollPlaza.findOne({ username: toll });
+    console.log(user);
+    if (user) {
+      try {
+        const passMatch = await bcrypt.compare(password, user.password);
+        if (passMatch) {
+          console.log("Password Matched");
+          try {
+            const token = createToken(user._id);
+            // console.log(token);
+            res.cookie('tollLogin', token, {
+              httpOnly: false,   // For access via JS (optional, for debugging)
+              secure: false,      // Required for cross-origin cookies in production
+              sameSite: 'None',  // Required for cross-origin cookies
+              maxAge: 60 * 60 * 1000,
+            });
+            // res.cookie('tollLogin', token, { domain: `${req.hostname}`, maxAge: 60 * 60 * 1000 });
+            // sameSite: 'None'  -> for CORS purposes and controlling the cookie to be sent only to the same origin
+            // secure : true -> is not recommended for development purposes as we can't access a cookie using document.cookie in the client side 
+            // path: '/' -> to make the cookie available to all the routes
+            // domain: `http://${req.hostname}:3000`} -> to make the cookie available to all the subdomains
+            console.log("Success");
+            res.send("Success");
+          } catch (err) {
+            console.log(err);
           }
         }
-        catch (err) {
-          console.log(err);
+        else {
+          console.log("Not Allowed");
+          res.send("Not Allowed");
         }
       }
+      catch (err) {
+        console.log(err);
+      }
     }
-    catch (err) {
-      console.log(err);
-    }
-  });
-  module.exports = router;
+  }
+  catch (err) {
+    console.log(err);
+  }
+});
+module.exports = router;
