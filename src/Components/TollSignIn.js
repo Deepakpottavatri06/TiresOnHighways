@@ -51,7 +51,7 @@ export default function TollLogin({ setSelectedToll, setSignInButton, setCookie 
         const response = await axios.post(`/login`, formData, { withCredentials: true });
         console.log(response);
         if (response.status === 200) {
-          setCookie(document.cookie);
+          setCookie(true);
           setSelectedToll(toll);
           setLoader(false);
           navigate('/toll/start');
