@@ -9,6 +9,7 @@ const tollLogin = require('./routes/tollLogin.js');
 const tollLogout = require('./routes/tollLogout.js');
 const tollUpload = require('./routes/tollUpload.js');
 const tollChRcImages = require('./routes/tollChRcImages.js');
+const tollVerify = require('./routes/tollVerify.js');
 const statistics = require('./routes/statistics.js')
 const app = express();
 const dotenv = require('dotenv');
@@ -50,6 +51,7 @@ router.get('/logout', tollLogout);
 router.post('/tollupload', tollUpload);
 router.get('/getIm', tollChRcImages);
 router.get('/stats', statistics);
+router.use('/api',tollVerify);
 
 // ^ Server listening on port 4000
 app.listen(port, () => console.log(`Server is listening on port ${port}`));

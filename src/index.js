@@ -11,11 +11,9 @@ axios.defaults.baseURL = 'https://tires-on-highways-express.vercel.app';
 // axios.defaults.baseURL = 'http://localhost:4000'; // For local development
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/* <BrowserRouter> */}
+  // <React.StrictMode>
     <App />
-    {/* </BrowserRouter> */}
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -35,26 +35,57 @@ function hasTollLoginCookie() {
 function App() {
   const [selectedToll, setSelectedToll] = useState('');
   const [signInButton, setSignInButton] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(hasTollLoginCookie());
+  // const [isAuthenticated, setIsAuthenticated] = useState(hasTollLoginCookie());
 
-  useEffect(() => {
-    const storedToll = localStorage.getItem('selectedToll');
-    if (storedToll) {
-      setSelectedToll(storedToll);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedToll = localStorage.getItem('selectedToll');
+  //   if (storedToll) {
+  //     setSelectedToll(storedToll);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   localStorage.setItem('selectedToll', selectedToll);
+  // }, [selectedToll]);
+
+  // // Listen for cookie changes (e.g., login/logout)
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setIsAuthenticated(hasTollLoginCookie());
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
+  // The two most important states for auth
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // To prevent content flashing
 
   useEffect(() => {
     localStorage.setItem('selectedToll', selectedToll);
   }, [selectedToll]);
 
-  // Listen for cookie changes (e.g., login/logout)
+
+  // THIS IS THE CORRECT WAY TO CHECK AUTHENTICATION ON PAGE LOAD
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsAuthenticated(hasTollLoginCookie());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    // This async function will ask the backend if our cookie is valid
+    const verifyUser = async () => {
+      try {
+        // Axios automatically sends cookies if you configure it globally,
+        // or you can add `withCredentials: true` to this specific request.
+        // This request will succeed (200 OK) if the cookie is valid.
+        await axios.get('/api/verify', { withCredentials: true });
+        setIsAuthenticated(true);
+      } catch (error) {
+        // This will catch the 401 Unauthorized error if the cookie is missing or invalid.
+        console.log("Verification failed, user is not logged in.");
+        setIsAuthenticated(false);
+      } finally {
+        // No matter what, stop the loading spinner
+        setIsLoading(false);
+      }
+    };
+
+    verifyUser();
+  }, []); // The empty array [] means this effect runs ONLY ONCE when the app first loads.
 
   return (
     <>

@@ -12,7 +12,7 @@ export default function Navbar({ signInButton, setCookie }) {
     e.preventDefault()
     const response = await axios.get(`/logout`, { withCredentials: true })
     if (response.data) {
-      setCookie(null)
+      setCookie(false)
       setModal(false);
       navigate('/');
     }
