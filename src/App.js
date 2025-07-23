@@ -18,6 +18,7 @@ import NoAccess from './Components/NoAccess';
 import './all_css/Home.css';
 import './all_css/Loader.css';
 import './stylesheet.css';
+import axios from 'axios';
 
 
 const NotFound = (props) => (
