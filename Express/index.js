@@ -17,12 +17,17 @@ dotenv.config();
 const port = 4000;
 
 // ^ CORS 
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Use environment variable or default to localhost
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 // app.use(cors({
-//   origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Use environment variable or default to localhost
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   origin: 'http://localhost:3000', // OR use process.env.FRONTEND_URL
 //   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 // }));
-app.use(cors());
+// app.use(cors());
 
 // & MongoDB connection
 // console.log(process.env.MONGODB_URI);

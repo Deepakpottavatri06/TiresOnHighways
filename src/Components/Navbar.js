@@ -21,7 +21,12 @@ export default function Navbar({ signInButton, setCookie }) {
   return (
     <nav className="container navbar navbar-expand-lg  border border-3 border-white rounded-5 w-75 mt-2 border-body" style={{ background: 'black' }} data-bs-theme="dark">
       <div className="container-fluid">
-        <Link to="/" type='button' className="btn btn-light btn-outline-dark rounded-5 me-2" >HOME</Link>
+        {document.cookie && document.cookie.includes('tollLogin') && (
+          <Link to="/toll/start" className="navbar-brand" style={{ color: 'white' }}>Toll Plaza</Link>
+        )}
+        {!document.cookie.includes('tollLogin') && (
+          <Link to="/" type='button' className="btn btn-light btn-outline-dark rounded-5 me-2" >HOME</Link>
+        )}
         <button className="navbar-toggler rounded-5 border border-2 border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

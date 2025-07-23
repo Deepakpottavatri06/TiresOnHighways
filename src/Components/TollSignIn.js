@@ -50,7 +50,7 @@ export default function TollLogin({ setSelectedToll, setSignInButton, setCookie 
       try {
         const response = await axios.post(`/login`, formData, { withCredentials: true });
         console.log(response);
-        if (response.data === "Success") {
+        if (response.status === 200) {
           setCookie(document.cookie);
           setSelectedToll(toll);
           setLoader(false);
@@ -64,6 +64,7 @@ export default function TollLogin({ setSelectedToll, setSignInButton, setCookie 
       catch (err) {
         console.log(err);
       }
+      setLoader(false);
     }
     if (!toll && !pwd) {
       setDisplayMessage("Please select a toll plaza and enter password");

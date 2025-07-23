@@ -56,7 +56,7 @@ export default function CheckRecords(props) {
 
   async function getImage(vehicleNumber) {
     try {
-      const imageSrcData = await axios.get(`https://tohexpress.onrender.com/getIm`, {
+      const imageSrcData = await axios.get(`/getIm`, {
         params: {
           date: dateSub,
           tollPlaza: props.selectedToll,
