@@ -77,8 +77,6 @@ function App() {
         // This request will succeed (200 OK) if the cookie is valid.
         await axios.get('/api/verify', { withCredentials: true });
         setIsAuthenticated(true);
-        // If we reach here, the user is authenticated
-        navigate('/toll/start');
 
       } catch (error) {
         // This will catch the 401 Unauthorized error if the cookie is missing or invalid.
@@ -98,11 +96,11 @@ function App() {
       <Router>
         <Navbar signInButton={signInButton} setCookie={setIsAuthenticated} />
         <Routes>
-          <Route path='/' element={<Home setSignInButton={setSignInButton}  />} />
+          <Route path='/' element={<Home setSignInButton={setSignInButton} />} />
           <Route path='/loader' element={<Loader />} />
           <Route path='/aboutus' element={<AboutUs setSignInButton={setSignInButton} />} />
-          <Route path='/toll' element={<TollLogin setCookie={setIsAuthenticated} selectedToll={selectedToll} setSelectedToll={setSelectedToll} setSignInButton={setSignInButton}  />} />
-          {!isAuthenticated &&
+          <Route path='/toll' element={<TollLogin setCookie={setIsAuthenticated} selectedToll={selectedToll} setSelectedToll={setSelectedToll} setSignInButton={setSignInButton} />} />
+          {/* {!isAuthenticated &&
             (<>
               <Route path='/toll/start' element={<NoAccess />} />
               <Route path='/toll/upload' element={<NoAccess />} />
@@ -118,15 +116,19 @@ function App() {
               <Route path='/toll/checkrecords' element={<CheckRecords selectedToll={selectedToll} setSignInButton={setSignInButton} />} />
             </>
             )
-          }
+          } */}
+          {/* Conditional Routes based on the CORRECT state */}
+          <Route path='/toll/start' element={isAuthenticated ? <TollStart selectedToll={selectedToll} setSignInButton={setSignInButton} /> : <NoAccess />} />
+          <Route path='/toll/upload' element={isAuthenticated ? <TollUpload selectedToll={selectedToll} setSignInButton={setSignInButton} /> : <NoAccess />} />
+          <Route path='/toll/checkrecords' element={isAuthenticated ? <CheckRecords selectedToll={selectedToll} setSignInButton={setSignInButton} /> : <NoAccess />} />
 
-          <Route path='/stats' element={<Statistics setSignInButton={setSignInButton}/>} />
+          <Route path='/stats' element={<Statistics setSignInButton={setSignInButton} />} />
           <Route path='/guest' element={<Guest setSignInButton={setSignInButton} />} />
           <Route path='/guest/upload' element={<GuestUpload setSignInButton={setSignInButton} />} />
           <Route path='/guest/checkdetails' element={<GuestDetails setSignInButton={setSignInButton} />} />
-          <Route path='*' element={<NotFound setSignInButton={setSignInButton}  />} />
+          <Route path='*' element={<NotFound setSignInButton={setSignInButton} />} />
         </Routes>
-        <Footer setSignInButton={setSignInButton}/>
+        <Footer setSignInButton={setSignInButton} />
       </Router>
     </>
   );
