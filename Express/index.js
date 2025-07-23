@@ -11,7 +11,8 @@ const tollUpload = require('./routes/tollUpload.js');
 const tollChRcImages = require('./routes/tollChRcImages.js');
 const statistics = require('./routes/statistics.js')
 const app = express();
-
+const dotenv = require('dotenv');
+dotenv.config();
 // ^ defining port
 const port = 4000;
 
@@ -24,7 +25,9 @@ const port = 4000;
 app.use(cors());
 
 // & MongoDB connection
-mongoose.connect(process.env.MONGODB_URI)
+// console.log(process.env.MONGODB_URI);
+
+mongoose.connect( `${process.env.MONGODB_URI}`)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 
