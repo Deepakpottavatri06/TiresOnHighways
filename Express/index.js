@@ -16,11 +16,12 @@ const app = express();
 const port = 4000;
 
 // ^ CORS 
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Use environment variable or default to localhost
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Use environment variable or default to localhost
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true,
+// }));
+app.use(cors());
 
 // & MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
