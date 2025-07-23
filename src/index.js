@@ -4,7 +4,9 @@ import './index.css';
 // import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
 
+axios.defaults.baseURL = 'https://tires-on-highways-express.vercel.app'; // Set the base URL for axios requests
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

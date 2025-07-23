@@ -9,10 +9,10 @@ const cors = require('cors');
 
 
 // ^ CORS 
-router.use(cors({
-    origin: 'https://tiresonhighways.vercel.app',
-    credentials: true,
-  }));
+// router.use(cors({
+//     origin: 'https://tiresonhighways.vercel.app',
+//     credentials: true,
+//   }));
 
 router.use(cookieParser());
 

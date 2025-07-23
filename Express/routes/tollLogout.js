@@ -5,10 +5,10 @@ const cors = require('cors');
 const auth = require('../middleware/tollAuth');
 
 // ^ CORS 
-router.use(cors({
-    origin: 'https://tiresonhighways.vercel.app',
-    credentials: true,
-}));
+// router.use(cors({
+//     origin: 'https://tiresonhighways.vercel.app',
+//     credentials: true,
+// }));
 
 router.use(cookieParser());
 

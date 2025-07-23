@@ -11,10 +11,10 @@ router.use(cookieparser());
 // const twilio = require('twilio');
 
 // ^ CORS 
-router.use(cors({
-    origin: 'https://tiresonhighways.vercel.app',
-    credentials: true,
-}));
+// router.use(cors({
+//     origin: 'https://tiresonhighways.vercel.app',
+//     credentials: true,
+// }));
 
 // & Multer config for TollUpload
 const TollUp = multer.memoryStorage();
@@ -42,7 +42,7 @@ router.post('/tollupload',auth,Tollupload.any(), async (req, res) => {
     const tollFlaskResponse = [];
     try {
         console.log("Sending file to flask api. . . ");
-        const tollResponse_flask = await axios.post('https://tohflask.onrender.com/classify', tollFlaskRequestData)
+        const tollResponse_flask = await axios.post(process.env.FLASK_URL + '/classify', tollFlaskRequestData)
         for (let i = 0; i < files.length; i++) {
             tollFlaskResponse.push(tollResponse_flask.data[i]);
         }
