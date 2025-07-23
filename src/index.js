@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'https://tires-on-highways-express.vercel.app'; 
+// axios.defaults.withCredentials = true;
 // axios.defaults.baseURL = 'http://localhost:4000'; // For local development
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
